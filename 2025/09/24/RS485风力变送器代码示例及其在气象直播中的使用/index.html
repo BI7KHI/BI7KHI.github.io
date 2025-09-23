@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="zh"><head>
+<title>RS485风力变送器代码示例及其在气象直播中的使用 - Xuanna024的小破站</title>
+<meta charset="UTF-8">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+
+<link rel="shortcut icon" href="/images/avatar.png" type="image/png" />
+<meta name="description" content="捡来的气象站硬件 咸鱼花费200捡了一套基本的气象传感器，想着呢来作为未来中继台可以发挥的一个小职能——作为小型综合气象站使用 200大洋包含的玩意:  翻斗式降水量传感器(全新传感器价格普遍在300左右) 一个多因素百叶箱(拿来塞温湿度传感器，空气质量传感器之类) 风力变送器包含一个风速传感器(一个风勺在运输中折断，用热熔胶粘的)，风向传感器  所有的传感器均为12V通信，RS485 Modbu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RS485风力变送器代码示例及其在气象直播中的使用">
+<meta property="og:url" content="https://bi7khi.github.io/2025/09/24/RS485%E9%A3%8E%E5%8A%9B%E5%8F%98%E9%80%81%E5%99%A8%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E5%8F%8A%E5%85%B6%E5%9C%A8%E6%B0%94%E8%B1%A1%E7%9B%B4%E6%92%AD%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Xuanna024的小破站">
+<meta property="og:description" content="捡来的气象站硬件 咸鱼花费200捡了一套基本的气象传感器，想着呢来作为未来中继台可以发挥的一个小职能——作为小型综合气象站使用 200大洋包含的玩意:  翻斗式降水量传感器(全新传感器价格普遍在300左右) 一个多因素百叶箱(拿来塞温湿度传感器，空气质量传感器之类) 风力变送器包含一个风速传感器(一个风勺在运输中折断，用热熔胶粘的)，风向传感器  所有的传感器均为12V通信，RS485 Modbu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bi7khi.github.io/images/RS485%E9%A3%8E%E5%8A%9B%E5%8F%98%E9%80%81%E5%99%A8/draw.png">
+<meta property="og:image" content="https://bi7khi.github.io/images/RS485%E9%A3%8E%E5%8A%9B%E5%8F%98%E9%80%81%E5%99%A8/%E7%94%B5%E8%B7%AF%E5%9C%A8%E5%9E%83%E5%9C%BE%E8%A2%8B%E9%87%8C.jpg">
+<meta property="og:image" content="https://bi7khi.github.io/images/RS485%E9%A3%8E%E5%8A%9B%E5%8F%98%E9%80%81%E5%99%A8/image.png">
+<meta property="og:image" content="https://bi7khi.github.io/images/RS485%E9%A3%8E%E5%8A%9B%E5%8F%98%E9%80%81%E5%99%A8/image2.png">
+<meta property="article:published_time" content="2025-09-23T17:27:38.000Z">
+<meta property="article:modified_time" content="2025-09-23T18:50:41.937Z">
+<meta property="article:author" content="Rosmontis可爱捏">
+<meta property="article:tag" content="传感器">
+<meta property="article:tag" content="RS485">
+<meta property="article:tag" content="气象">
+<meta property="article:tag" content="单片机">
+<meta property="article:tag" content="轻量web页面">
+<meta property="article:tag" content="直播应用">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bi7khi.github.io/images/RS485%E9%A3%8E%E5%8A%9B%E5%8F%98%E9%80%81%E5%99%A8/draw.png">
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1758653944109">
+
+<link rel="stylesheet" href="/css/style.css?v=1758653944110">
+
+
+
+
+    
+        <link rel="stylesheet" href="/custom.css?v=1758653944110">
+    
+
+
+
+<script src="/lib/mdui_043tiny/mdui.js" async></script>
+<script src="/lib/fancybox/fancybox.umd.js" async></script>
+<script src="/lib/lax.min.js" async></script>
+
+
+<script async src="/js/app.js?v=1758653944110"></script>
+
+ 
+
+<!-- MathJax 数学公式渲染 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    processEnvironments: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+<meta name="generator" content="Hexo 7.3.0"></head><body class="nexmoe mdui-drawer-body-left"><div id="nexmoe-background"><div class="nexmoe-bg" style="background-image: url(/images/background_mainpage.png)"></div><div class="mdui-appbar mdui-shadow-0"><div class="mdui-toolbar"><a class="mdui-btn mdui-btn-icon mdui-ripple" mdui-drawer="{target: &#039;#drawer&#039;, swipe: true}" title="menu"><i class="mdui-icon nexmoefont icon-menu"></i></a><div class="mdui-toolbar-spacer"></div><a class="mdui-btn mdui-btn-icon" href="/" title="Rosmontis可爱捏"><img src="/images/avatar.png" alt="Rosmontis可爱捏"></a></div></div></div><div id="nexmoe-header"><div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Rosmontis可爱捏">
+            <img src="/images/avatar.png" alt="Rosmontis可爱捏" alt="Rosmontis可爱捏">
+        </a>
+    </div>
+
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/gallery/" title="图库">
+            <i class="mdui-list-item-icon nexmoefont icon-gallery"></i>
+            <div class="mdui-list-item-content">
+                图库
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about/" title="关于">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于
+            </div>
+        </a>
+        
+    </div>
+    
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        
+            <form id="search_form">
+                <label><input class="st-default-search-input" id="search_value" name="q" type="search" placeholder="搜索" style="
+                    font-size: 15px !important;
+                    height: 56px !important;
+                    background-image: none;
+                "></label>
+            </form>
+         
+    </div>
+</div>
+
+
+	<script async src="/js/search.js?v=1758653944110"></script>
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://github.com/BI7KHI"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: ;
+				background-color: ;
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="mailto:a298995@outlook.com"
+			target="_blank"
+			mdui-tooltip="{content: '邮箱'}"
+			style="
+				color: ;
+				background-color: ;
+			"
+		>
+			<i
+				class="nexmoefont icon-mail"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/667586588?spm_id_from=333.1387.0.0"
+			target="_blank"
+			mdui-tooltip="{content: 'Bilibili'}"
+			style="
+				color: ;
+				background-color: ;
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">分类</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/业余无线电/">业余无线电</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/学习笔记/">学习笔记</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/技术/">技术</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/CloudFlare/" style="font-size: 10px;">CloudFlare</a> <a href="/tags/DNS/" style="font-size: 10px;">DNS</a> <a href="/tags/Minecraft/" style="font-size: 10px;">Minecraft</a> <a href="/tags/QSL/" style="font-size: 10px;">QSL</a> <a href="/tags/QSL%E5%8D%A1%E7%89%87/" style="font-size: 10px;">QSL卡片</a> <a href="/tags/RM%E5%88%86%E6%94%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">RM分支技术</a> <a href="/tags/RM%E6%88%98%E9%98%9F/" style="font-size: 10px;">RM战队</a> <a href="/tags/RS485/" style="font-size: 10px;">RS485</a> <a href="/tags/hello-world/" style="font-size: 10px;">hello world</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/web%E5%BC%80%E5%8F%91/" style="font-size: 10px;">web开发</a> <a href="/tags/%E4%B8%9A%E4%BD%99%E6%97%A0%E7%BA%BF%E7%94%B5/" style="font-size: 20px;">业余无线电</a> <a href="/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/" style="font-size: 10px;">传感器</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 10px;">单片机</a> <a href="/tags/%E5%A4%A7%E7%96%86/" style="font-size: 10px;">大疆</a> <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">学习</a> <a href="/tags/%E5%BE%B7%E5%B7%9E%E4%BB%AA%E5%99%A8/" style="font-size: 10px;">德州仪器</a> <a href="/tags/%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">技术</a> <a href="/tags/%E6%91%84%E5%BD%B1/" style="font-size: 10px;">摄影</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 10px;">数学</a> <a href="/tags/%E6%97%A0%E4%BA%BA%E6%9C%BA/" style="font-size: 10px;">无人机</a> <a href="/tags/%E6%98%8E%E6%97%A5%E6%96%B9%E8%88%9F/" style="font-size: 20px;">明日方舟</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 10px;">服务器</a> <a href="/tags/%E6%B0%94%E8%B1%A1/" style="font-size: 10px;">气象</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E7%94%B5%E5%AD%90/" style="font-size: 10px;">电子</a> <a href="/tags/%E7%9B%B4%E6%92%AD%E5%BA%94%E7%94%A8/" style="font-size: 10px;">直播应用</a> <a href="/tags/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">第一篇博客</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 10px;">线性代数</a> <a href="/tags/%E8%87%AA%E8%A1%8C%E8%BD%A6/" style="font-size: 10px;">自行车</a> <a href="/tags/%E8%BD%BB%E9%87%8Fweb%E9%A1%B5%E9%9D%A2/" style="font-size: 10px;">轻量web页面</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a> <a href="/tags/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2/" style="font-size: 10px;">远程桌面</a> <a href="/tags/%E9%80%9A%E8%81%94%E8%AF%81%E6%98%8E/" style="font-size: 10px;">通联证明</a> <a href="/tags/%E9%AB%98%E6%A0%A1/" style="font-size: 10px;">高校</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(15);
+        var tags_length = parseInt(35);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/09/">九月 2025</a><span class="archive-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+        <div class="nexmoe-widget-wrap widget-friends">
+	<h3 class="nexmoe-widget-title widget-title">友情链接</h3>
+	<div class="nexmoe-widget">
+		<ul class="friends-list">
+			
+			<li class="friend-item">
+				<a href="https://hongliu.icu/" target="_blank" class="friend-link">
+					<img src="https://hongliu.icu/image/avator_1.jpg" alt="Hongliu的小站" class="friend-avatar">
+					<div class="friend-info">
+						<span class="friend-name">Hongliu的小站</span>
+						<div class="friend-desc"></div>
+					</div>
+				</a>
+			</li>
+			
+			<li class="friend-item">
+				<a href="https://blog.suoilfield.cc/" target="_blank" class="friend-link">
+					<img src="https://blog.suoilfield.cc/assets/images/profile.png" alt="SuOilfield&#39;s Blog" class="friend-avatar">
+					<div class="friend-info">
+						<span class="friend-name">SuOilfield&#39;s Blog</span>
+						<div class="friend-desc"></div>
+					</div>
+				</a>
+			</li>
+			
+			<li class="friend-item">
+				<a href="https://yuanshen.dev/" target="_blank" class="friend-link">
+					<img src="https://ts4.tc.mm.bing.net/th/id/OIP-C.uXs0b0qPzfy2kKFCwiPHswAAAA?w=108&h=108&c=1&bgcl=1d7f01&r=0&o=7&dpr=1.7&pid=ImgRC&rm=3" alt="YuanRetro" class="friend-avatar">
+					<div class="friend-info">
+						<span class="friend-name">YuanRetro</span>
+						<div class="friend-desc"></div>
+					</div>
+				</a>
+			</li>
+			
+		</ul>
+	</div>
+</div>
+    
+   
+    <div class="nexmoe-copyright">
+        &copy; 2025 Rosmontis可爱捏
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        
+    </div>
+</div><!-- .nexmoe-drawer --></div><div id="nexmoe-content"><div class="nexmoe-primary"><div class="nexmoe-post">
+  <article>
+    
+        <div class="nexmoe-post-cover absolute" style="padding-top: NaN%;"> 
+            <img src="/images/RS485风力变送器/image2.png" alt="RS485风力变送器代码示例及其在气象直播中的使用" loading="lazy">
+            <h1>RS485风力变送器代码示例及其在气象直播中的使用</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2025年09月24日</a>
+        
+            <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+        
+        
+    <a><i class="nexmoefont icon-areachart"></i>约1.1k字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要5分钟</a>
+
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <h2 id="捡来的气象站硬件">捡来的气象站硬件</h2>
+<p>咸鱼花费200捡了一套基本的气象传感器，想着呢来作为未来中继台可以发挥的一个小职能——作为小型综合气象站使用</p>
+<p>200大洋包含的玩意:</p>
+<ul>
+<li><strong>翻斗式降水量传感器</strong>(全新传感器价格普遍在300左右)</li>
+<li>一个多因素<strong>百叶箱</strong>(拿来塞温湿度传感器，空气质量传感器之类)</li>
+<li>风力变送器包含一个<strong>风速传感器</strong>(一个风勺在运输中折断，用热熔胶粘的)，<strong>风向传感器</strong></li>
+</ul>
+<p>所有的传感器均为12V通信，<strong>RS485 Modbus</strong>协议通讯</p>
+<p>而后超强台风<strong>桦加沙</strong>即将登陆，想着在直播中加入风速的即时显示故开始了相关折腾</p>
+<h2 id="单片机方案及其相关硬件">单片机方案及其相关硬件</h2>
+<ul>
+<li>ESP8266作为连接网络及其相关数据的读取</li>
+<li>TTL to RS485 电平转换模块</li>
+<li>风速传感器一个</li>
+<li>MT 3608 Boost模块</li>
+</ul>
+<p>供电方案采用充电宝供电，临时搭建的仅考虑能用就行</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/RS485%E9%A3%8E%E5%8A%9B%E5%8F%98%E9%80%81%E5%99%A8/draw.png" alt="Draw" data-caption="Draw" loading="lazy"></p>
+<h2 id="一坨电路实物">一坨电路实物</h2>
+<p>临时搭建的玩意，面包板上的实物如下，然后拿着个垃圾袋挂着:</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/RS485%E9%A3%8E%E5%8A%9B%E5%8F%98%E9%80%81%E5%99%A8/%E7%94%B5%E8%B7%AF%E5%9C%A8%E5%9E%83%E5%9C%BE%E8%A2%8B%E9%87%8C.jpg" alt="电路在垃圾袋里" data-caption="电路在垃圾袋里" loading="lazy"></p>
+<h2 id="Arduin代码实现-Modbus通信实现代码示例">Arduin代码实现,Modbus通信实现代码示例</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ESP8266WiFi.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ESP8266WebServer.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ModbusMaster.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;SoftwareSerial.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// WiFi配置</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* ssid = <span class="string">&quot;ChinaNet-ZXBRT4&quot;</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* password = <span class="string">&quot;#Key298995&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建Web服务器，端口80</span></span><br><span class="line"><span class="function">ESP8266WebServer <span class="title">server</span><span class="params">(<span class="number">80</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 核心参数</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SENSOR_ADDR 0x01        <span class="comment">// 传感器地址</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> WIND_SPEED_REG 0x0000   <span class="comment">// 风速寄存器地址</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BAUDRATE 9600           <span class="comment">// 波特率</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> READ_RETRIES 2          <span class="comment">// 减少重试次数，避免阻塞</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> READ_TIMEOUT 1000       <span class="comment">// 单次读取超时时间(毫秒)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 软件串口（D5=TX, D6=RX）</span></span><br><span class="line"><span class="function">SoftwareSerial <span class="title">rs485Serial</span><span class="params">(<span class="number">12</span>, <span class="number">14</span>)</span></span>;  <span class="comment">// RX=GPIO12(D6), TX=GPIO14(D5)</span></span><br><span class="line">ModbusMaster node;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 存储有效风速</span></span><br><span class="line"><span class="type">float</span> lastValidSpeed = <span class="number">0.0</span>;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> lastReadTime = <span class="number">0</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> readInterval = <span class="number">2000</span>;  <span class="comment">// 读取间隔</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 超简单网页HTML内容</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> index_html[] PROGMEM = <span class="string">R&quot;rawliteral(</span></span><br><span class="line"><span class="string">&lt;!DOCTYPE HTML&gt;</span></span><br><span class="line"><span class="string">&lt;html&gt;</span></span><br><span class="line"><span class="string">&lt;head&gt;</span></span><br><span class="line"><span class="string">  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</span></span><br><span class="line"><span class="string">  &lt;meta charset=&quot;UTF-8&quot;&gt;</span></span><br><span class="line"><span class="string">  &lt;title&gt;实时风速监测&lt;/title&gt;</span></span><br><span class="line"><span class="string">  &lt;style&gt;</span></span><br><span class="line"><span class="string">    body &#123; font-family: Arial; text-align: center; padding: 20px; &#125;</span></span><br><span class="line"><span class="string">    .speed &#123; font-size: 4em; font-weight: bold; margin: 30px 0; &#125;</span></span><br><span class="line"><span class="string">  &lt;/style&gt;</span></span><br><span class="line"><span class="string">&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;body&gt;</span></span><br><span class="line"><span class="string">  &lt;h1&gt;实时风速监测&lt;/h1&gt;</span></span><br><span class="line"><span class="string">  &lt;div class=&quot;speed&quot;&gt;</span></span><br><span class="line"><span class="string">    &lt;span id=&quot;speedMs&quot;&gt;--&lt;/span&gt; m/s (&lt;span id=&quot;speedKmh&quot;&gt;--&lt;/span&gt; km/h)</span></span><br><span class="line"><span class="string">  &lt;/div&gt;</span></span><br><span class="line"><span class="string">  &lt;div&gt;更新时间: &lt;span id=&quot;updateTime&quot;&gt;--&lt;/span&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  &lt;script&gt;</span></span><br><span class="line"><span class="string">    // 简单的AJAX请求函数</span></span><br><span class="line"><span class="string">    function getData() &#123;</span></span><br><span class="line"><span class="string">      var xhr = new XMLHttpRequest();</span></span><br><span class="line"><span class="string">      xhr.open(&#x27;GET&#x27;, &#x27;/data&#x27;, true);</span></span><br><span class="line"><span class="string">      xhr.timeout = 3000;  // 设置请求超时时间</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">      xhr.onload = function() &#123;</span></span><br><span class="line"><span class="string">        if (this.status == 200) &#123;</span></span><br><span class="line"><span class="string">          try &#123;</span></span><br><span class="line"><span class="string">            var data = JSON.parse(this.responseText);</span></span><br><span class="line"><span class="string">            document.getElementById(&#x27;speedMs&#x27;).textContent = data.s.toFixed(1);</span></span><br><span class="line"><span class="string">            document.getElementById(&#x27;speedKmh&#x27;).textContent = (data.s * 3.6).toFixed(1);</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">            var d = new Date();</span></span><br><span class="line"><span class="string">            document.getElementById(&#x27;updateTime&#x27;).textContent = </span></span><br><span class="line"><span class="string">              d.getHours() + &#x27;:&#x27; + (d.getMinutes()&lt;10?&#x27;0&#x27;:&#x27;&#x27;)+d.getMinutes() + </span></span><br><span class="line"><span class="string">              &#x27;:&#x27; + (d.getSeconds()&lt;10?&#x27;0&#x27;:&#x27;&#x27;)+d.getSeconds();</span></span><br><span class="line"><span class="string">          &#125; catch(e) &#123;&#125;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">      &#125;;</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">      xhr.ontimeout = function() &#123;</span></span><br><span class="line"><span class="string">        // 请求超时不做处理，避免干扰</span></span><br><span class="line"><span class="string">      &#125;;</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">      xhr.send();</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    // 初始加载和定时更新</span></span><br><span class="line"><span class="string">    getData();</span></span><br><span class="line"><span class="string">    setInterval(getData, 2000);</span></span><br><span class="line"><span class="string">  &lt;/script&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;</span></span><br><span class="line"><span class="string">)rawliteral&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 初始化串口</span></span><br><span class="line">  Serial.<span class="built_in">begin</span>(<span class="number">115200</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 初始化Modbus（简化配置）</span></span><br><span class="line">  rs485Serial.<span class="built_in">begin</span>(BAUDRATE, SWSERIAL_8N1);</span><br><span class="line">  node.<span class="built_in">begin</span>(SENSOR_ADDR, rs485Serial);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 连接WiFi（带超时控制）</span></span><br><span class="line">  Serial.<span class="built_in">print</span>(<span class="string">&quot;连接WiFi: &quot;</span>);</span><br><span class="line">  WiFi.<span class="built_in">begin</span>(ssid, password);</span><br><span class="line">  </span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> start = <span class="built_in">millis</span>();</span><br><span class="line">  <span class="keyword">while</span> (WiFi.<span class="built_in">status</span>() != WL_CONNECTED &amp;&amp; <span class="built_in">millis</span>() - start &lt; <span class="number">15000</span>) &#123;</span><br><span class="line">    <span class="built_in">delay</span>(<span class="number">500</span>);</span><br><span class="line">    Serial.<span class="built_in">print</span>(<span class="string">&quot;.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (WiFi.<span class="built_in">status</span>() == WL_CONNECTED) &#123;</span><br><span class="line">    Serial.<span class="built_in">println</span>(<span class="string">&quot;\nWiFi已连接&quot;</span>);</span><br><span class="line">    Serial.<span class="built_in">print</span>(<span class="string">&quot;访问: http://&quot;</span>);</span><br><span class="line">    Serial.<span class="built_in">println</span>(WiFi.<span class="built_in">localIP</span>());</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    Serial.<span class="built_in">println</span>(<span class="string">&quot;\nWiFi连接失败&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 注册路由（极简处理）</span></span><br><span class="line">  server.<span class="built_in">on</span>(<span class="string">&quot;/&quot;</span>, []()&#123;</span><br><span class="line">    server.<span class="built_in">send_P</span>(<span class="number">200</span>, <span class="string">&quot;text/html; charset=UTF-8&quot;</span>, index_html);</span><br><span class="line">  &#125;);</span><br><span class="line">  </span><br><span class="line">  server.<span class="built_in">on</span>(<span class="string">&quot;/data&quot;</span>, []()&#123;</span><br><span class="line">    <span class="comment">// 快速响应，不阻塞服务器</span></span><br><span class="line">    String json = <span class="string">&quot;&#123;\&quot;s\&quot;:&quot;</span> + <span class="built_in">String</span>(lastValidSpeed) + <span class="string">&quot;&#125;&quot;</span>;</span><br><span class="line">    server.<span class="built_in">send</span>(<span class="number">200</span>, <span class="string">&quot;application/json&quot;</span>, json);</span><br><span class="line">  &#125;);</span><br><span class="line">  </span><br><span class="line">  server.<span class="built_in">begin</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 优先处理客户端请求，避免阻塞</span></span><br><span class="line">  server.<span class="built_in">handleClient</span>();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 定时读取传感器（不阻塞服务器）</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">millis</span>() - lastReadTime &gt;= readInterval) &#123;</span><br><span class="line">    lastReadTime = <span class="built_in">millis</span>();</span><br><span class="line">    <span class="built_in">readWindSpeed</span>();  <span class="comment">// 异步读取，不影响服务器响应</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 读取风速（带超时控制，不阻塞主循环）</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">readWindSpeed</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="type">uint8_t</span> result = node.<span class="built_in">readHoldingRegisters</span>(WIND_SPEED_REG, <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">if</span> (result == node.ku8MBSuccess) &#123;</span><br><span class="line">    <span class="type">uint16_t</span> raw = node.<span class="built_in">getResponseBuffer</span>(<span class="number">0</span>);</span><br><span class="line">    lastValidSpeed = raw / <span class="number">2.0</span>;  <span class="comment">// 转换系数</span></span><br><span class="line">    Serial.<span class="built_in">print</span>(<span class="string">&quot;风速: &quot;</span>);</span><br><span class="line">    Serial.<span class="built_in">println</span>(lastValidSpeed);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="直播效果">直播效果</h2>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/RS485%E9%A3%8E%E5%8A%9B%E5%8F%98%E9%80%81%E5%99%A8/image.png" alt="效果1" data-caption="效果1" loading="lazy"><br>
+<img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/RS485%E9%A3%8E%E5%8A%9B%E5%8F%98%E9%80%81%E5%99%A8/image2.png" alt="效果2" data-caption="效果2" loading="lazy"></p>
+
+    
+  </article>
+
+  
+      
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/RS485/" rel="tag">RS485</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/" rel="tag">传感器</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%B0%94%E8%B1%A1/" rel="tag">气象</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E7%9B%B4%E6%92%AD%E5%BA%94%E7%94%A8/" rel="tag">直播应用</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E8%BD%BB%E9%87%8Fweb%E9%A1%B5%E9%9D%A2/" rel="tag">轻量web页面</a>
+    
+</div>
+  
+  
+    <script async src="/js/copy-codeblock.js?v=1758653943984"></script>
+  
+
+  
+      <div class="nexmoe-post-footer">
+          
+      </div>
+  
+</div></div><div class="nexmoe-post-right">    <div class="nexmoe-fixed">
+        <div class="nexmoe-tool">
+
+            
+
+            
+            
+            <button class="mdui-fab catalog" style="overflow:unset;">
+                <i class="nexmoefont icon-i-catalog"></i>
+                <div class="nexmoe-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8D%A1%E6%9D%A5%E7%9A%84%E6%B0%94%E8%B1%A1%E7%AB%99%E7%A1%AC%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">捡来的气象站硬件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E7%89%87%E6%9C%BA%E6%96%B9%E6%A1%88%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3%E7%A1%AC%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">单片机方案及其相关硬件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%9D%A8%E7%94%B5%E8%B7%AF%E5%AE%9E%E7%89%A9"><span class="toc-number">3.</span> <span class="toc-text">一坨电路实物</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Arduin%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-Modbus%E9%80%9A%E4%BF%A1%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">Arduin代码实现,Modbus通信实现代码示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B4%E6%92%AD%E6%95%88%E6%9E%9C"><span class="toc-number">5.</span> <span class="toc-text">直播效果</span></a></li></ol>
+                </div>
+            </button>
+            
+
+            
+
+            <a href="#nexmoe-content" class="backtop toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+        </div>
+    </div>
+</div></div><div id="nexmoe-footer"><!--!--></div><div id="nexmoe-search-space"><div class="search-container"><div class="search-header"><div class="search-input-container"><input class="search-input" type="text" placeholder="搜索" onInput="sinput();"></div><a class="search-close" onclick="sclose();">×</a></div><div class="search-body"></div></div></div><div></div></body></html>
