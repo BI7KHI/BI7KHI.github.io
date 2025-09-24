@@ -148,8 +148,8 @@ figure.highlight table {
 }
 
 figure.highlight .gutter {
-    background: #252526 !important;
-    border-right: 1px solid #3e3e42 !important;
+    background: transparent !important;
+    border-right: none !important;
     color: #858585 !important;
     padding: 0.5em !important;
 }
@@ -1124,7 +1124,7 @@ article h2:before {
     --color6: #1a98ff;
     --color7: #9090ff;
     --color-primary-bg: rgba(3, 155, 84, 0.15);
-    --color2-bg: rgba(169, 23, 23, 0.15);
+    --color2-bg: rgba(235, 172, 46, 0.176);
     --color3-bg: rgba(255,185,0,0.15);
     --color4-bg: rgba(51,213,122,0.15);
     --color5-bg: rgba(0,219,255,0.15);
