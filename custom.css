@@ -3,6 +3,8 @@
 /* 修复Nexmoe主题NaN问题 */
 .nexmoe-post-cover[style*="NaN"] {
     padding-top: 56.25% !important; /* 16:9 比例 */
+    background-size: cover !important;
+    background-position: center center !important;
 }
 
 /* 修复邮箱图标显示问题 */
