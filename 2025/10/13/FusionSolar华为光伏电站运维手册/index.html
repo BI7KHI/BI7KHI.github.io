@@ -1,40 +1,47 @@
 <!doctype html>
 <html lang="zh"><head>
-<title>生活随拍 - Xuanna024的小破站</title>
+<title>【数字能源】FusionSolar华为光伏电站运维手册 - Xuanna024的小破站</title>
 <meta charset="UTF-8">
 <meta name="keywords" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
 
 <link rel="shortcut icon" href="/images/avatar.png" type="image/png" />
-<meta name="description" content="📱 生活随拍 记录生活中的点点滴滴，发现平凡中的美好瞬间。  黍泡泡-眼镜ver  殿下和阿米娅兔兔  📷 日常摄影 生活中总有那么一些瞬间值得被记录下来，无论是一个美丽的日落，还是一个有趣的瞬间。    ← 返回图库首页 QSL收藏集 →     .gallery-nav {     display: flex;     justify-content: space-between;">
-<meta property="og:type" content="website">
-<meta property="og:title" content="生活随拍">
-<meta property="og:url" content="https://bi7khi.github.io/gallery/life/index.html">
+<meta name="description" content="工程简介 本文介绍华为SUN2000系列逆变器的各类安装事项，以及SmartLogger的快速设置指南，用于快速故障排除和安装入门指导 工商业发电:电网防逆流方案 方案介绍以及适用场景  在电网并网审批还未完成时,防止发出的电量流入电网，避免罚款 微电网应用场景。  防逆流方案（限功率并网）基本原理  通过限制逆变器输出功率，使用逆变器内置PID控制器进行功率控制，确保发电功率不会输出导电网 需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数字能源】FusionSolar华为光伏电站运维手册">
+<meta property="og:url" content="https://bi7khi.github.io/2025/10/13/FusionSolar%E5%8D%8E%E4%B8%BA%E5%85%89%E4%BC%8F%E7%94%B5%E7%AB%99%E8%BF%90%E7%BB%B4%E6%89%8B%E5%86%8C/index.html">
 <meta property="og:site_name" content="Xuanna024的小破站">
-<meta property="og:description" content="📱 生活随拍 记录生活中的点点滴滴，发现平凡中的美好瞬间。  黍泡泡-眼镜ver  殿下和阿米娅兔兔  📷 日常摄影 生活中总有那么一些瞬间值得被记录下来，无论是一个美丽的日落，还是一个有趣的瞬间。    ← 返回图库首页 QSL收藏集 →     .gallery-nav {     display: flex;     justify-content: space-between;">
+<meta property="og:description" content="工程简介 本文介绍华为SUN2000系列逆变器的各类安装事项，以及SmartLogger的快速设置指南，用于快速故障排除和安装入门指导 工商业发电:电网防逆流方案 方案介绍以及适用场景  在电网并网审批还未完成时,防止发出的电量流入电网，避免罚款 微电网应用场景。  防逆流方案（限功率并网）基本原理  通过限制逆变器输出功率，使用逆变器内置PID控制器进行功率控制，确保发电功率不会输出导电网 需要">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://bi7khi.github.io/images/gallery/b4a360d3b7eb379358b89a2a22122a73.jpg">
-<meta property="og:image" content="https://bi7khi.github.io/images/gallery/%E5%B1%B1%E5%B1%B1%E5%85%94.jpg">
-<meta property="og:image" content="https://bi7khi.github.io/images/gallery/1fe955ddfabcbd20d5588b62e4370687.jpg">
-<meta property="article:published_time" content="2025-01-26T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-29T17:17:18.709Z">
+<meta property="og:image" content="https://bi7khi.github.io/images/FusionSolar/Snipaste_2025-10-13_13-00-53.png">
+<meta property="og:image" content="https://bi7khi.github.io/images/FusionSolar/thumbnail_image001.png">
+<meta property="og:image" content="https://bi7khi.github.io/images/FusionSolar/Snipaste_2025-10-12_23-46-10.png">
+<meta property="article:published_time" content="2025-10-13T04:38:56.000Z">
+<meta property="article:modified_time" content="2025-10-13T05:06:53.424Z">
 <meta property="article:author" content="BI7KHI">
+<meta property="article:tag" content="运维">
+<meta property="article:tag" content="数字能源">
+<meta property="article:tag" content="串口通信">
+<meta property="article:tag" content="华为FusionSolar">
+<meta property="article:tag" content="光伏电站">
+<meta property="article:tag" content="微电网">
+<meta property="article:tag" content="电气工程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://bi7khi.github.io/images/gallery/b4a360d3b7eb379358b89a2a22122a73.jpg">
+<meta name="twitter:image" content="https://bi7khi.github.io/images/FusionSolar/Snipaste_2025-10-13_13-00-53.png">
 
 <link rel="stylesheet" href="/lib/fancybox/fancybox.css">
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1760332027459">
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1760332027377">
 
-<link rel="stylesheet" href="/css/style.css?v=1760332027459">
+<link rel="stylesheet" href="/css/style.css?v=1760332027377">
 
 
 
 
     
-        <link rel="stylesheet" href="/custom.css?v=1760332027459">
+        <link rel="stylesheet" href="/custom.css?v=1760332027377">
     
 
 
@@ -44,7 +51,7 @@
 <script src="/lib/lax.min.js" async></script>
 
 
-<script async src="/js/app.js?v=1760332027459"></script>
+<script async src="/js/app.js?v=1760332027377"></script>
 
  
 
@@ -96,7 +103,7 @@ window.MathJax = {
             </div>
         </a>
         
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple true" href="/gallery/" title="图库">
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/gallery/" title="图库">
             <i class="mdui-list-item-icon nexmoefont icon-gallery"></i>
             <div class="mdui-list-item-content">
                 图库
@@ -129,7 +136,7 @@ window.MathJax = {
 </div>
 
 
-	<script async src="/js/search.js?v=1760332027460"></script>
+	<script async src="/js/search.js?v=1760332027378"></script>
 
 
 
@@ -336,18 +343,20 @@ window.MathJax = {
 </div><!-- .nexmoe-drawer --></div><div id="nexmoe-content"><div class="nexmoe-primary"><div class="nexmoe-post">
   <article>
     
-        <div class="nexmoe-post-cover"> 
-            <img src="/images/background_mainpage.png" alt="生活随拍" loading="lazy">
-            <h1>生活随拍</h1>
+        <div class="nexmoe-post-cover absolute" style="padding-top: NaN%;"> 
+            <img src="/images/FusionSolar/FusionSolar.png" alt="【数字能源】FusionSolar华为光伏电站运维手册" loading="lazy">
+            <h1>【数字能源】FusionSolar华为光伏电站运维手册</h1>
         </div>
     
     
     <div class="nexmoe-post-meta">
     <div class="nexmoe-rainbow">
-        <a class="nexmoefont icon-calendar-fill">2025年01月27日</a>
+        <a class="nexmoefont icon-calendar-fill">2025年10月13日</a>
+        
+            <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
         
         
-    <a><i class="nexmoefont icon-areachart"></i>约174字</a>
+    <a><i class="nexmoefont icon-areachart"></i>约469字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要1分钟</a>
 
     </div>
@@ -358,59 +367,36 @@ window.MathJax = {
     
 </div>
 
-    <h1>📱 生活随拍</h1>
-<p>记录生活中的点点滴滴，发现平凡中的美好瞬间。</p>
-<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/gallery/b4a360d3b7eb379358b89a2a22122a73.jpg" alt="黍泡泡-眼镜ver" data-caption="黍泡泡-眼镜ver" loading="lazy"></p>
-<p>黍泡泡-眼镜ver</p>
-<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/gallery/%E5%B1%B1%E5%B1%B1%E5%85%94.jpg" alt="山山兔" data-caption="山山兔" loading="lazy"></p>
-<p>殿下和阿米娅兔兔</p>
-<hr>
-<h2 id="📷-日常摄影">📷 日常摄影</h2>
-<p>生活中总有那么一些瞬间值得被记录下来，无论是一个美丽的日落，还是一个有趣的瞬间。</p>
-<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/gallery/1fe955ddfabcbd20d5588b62e4370687.jpg" alt="广工通道日落" data-caption="广工通道日落" loading="lazy"></p>
-<hr>
-<div class="gallery-nav">
-<a href="/gallery/" class="nav-btn">← 返回图库首页</a>
-<a href="/gallery/qsl/" class="nav-btn">QSL收藏集 →</a>
-</div>
-<style>
-
-
-.gallery-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 40px;
-    padding: 20px 0;
-    border-top: 2px solid #00bcd4;
-}
-
-.nav-btn {
-    background: linear-gradient(135deg, #00bcd4, #0097a7);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 25px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.nav-btn:hover {
-    background: linear-gradient(135deg, #0097a7, #00838f);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 188, 212, 0.3);
-}
-
-@media (max-width: 768px) {
-    .gallery-nav {
-        flex-direction: column;
-        gap: 10px;
-    }
-  
-    .nav-btn {
-        text-align: center;
-    }
-}
-</style>
+    <h1>工程简介</h1>
+<p>本文介绍华为SUN2000系列逆变器的各类安装事项，以及SmartLogger的快速设置指南，用于快速故障排除和安装入门指导</p>
+<h2 id="工商业发电-电网防逆流方案">工商业发电:电网防逆流方案</h2>
+<h3 id="方案介绍以及适用场景">方案介绍以及适用场景</h3>
+<ul>
+<li>在电网并网审批还未完成时,防止发出的电量流入电网，避免罚款</li>
+<li>微电网应用场景。</li>
+</ul>
+<h3 id="防逆流方案（限功率并网）基本原理">防逆流方案（限功率并网）基本原理</h3>
+<ul>
+<li>通过限制逆变器输出功率，使用逆变器内置PID控制器进行功率控制，确保发电功率不会输出导电网</li>
+<li>需要的数据为逆变器的输出功率，以及外部电表采集的功率以及功率方向</li>
+</ul>
+<h4 id="单机家庭电站防逆流方案-100-自发自用">单机家庭电站防逆流方案(100%自发自用)</h4>
+<p>在SUN2000技术手册中，有提及相关组网方案：使用电表来自正泰电气DTSU6666-H，该电表最大电流为250A，有另外规格100A<br>
+DSTU-6666技术手册：<a target="_blank" rel="noopener" href="https://support.huawei.com/enterprise/zh/doc/EDOC1100187429/426cffd9">DTSU6666-H 技术手册</a></p>
+<p>连接至SUN2000-50KTL、SUN2000-110KTL等逆变器，最多支持双机组网<br>
+使用RS485Modbus与逆变器通讯<br>
+连接线序需要根据逆变器的规定COM口的引脚进行连接，并设置协议，波特率，数据位，校验位，停止位等参数。</p>
+<h5 id="以SUN2000-75KTL-M1-100KTL-M2-110KTL-M2-115KTL-M2-单机组网为例">以SUN2000-(75KTL-M1, 100KTL-M2, 110KTL-M2, 115KTL-M2)单机组网为例</h5>
+<p>逆变器COM接口定义<br>
+<img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/FusionSolar/Snipaste_2025-10-13_13-00-53.png" alt="逆变器COM接口定义" data-caption="逆变器COM接口定义" loading="lazy"><br>
+将电表连接至逆变器的RS485-2接口<br>
+<strong>使用RS485带屏蔽双绞线缆，这在长距离通信中非常重要</strong></p>
+<h6 id="电表通信故障排除流程">电表通信故障排除流程</h6>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/FusionSolar/thumbnail_image001.png" alt="电表通信故障排除流程" data-caption="电表通信故障排除流程" loading="lazy"></p>
+<h4 id="多机大型电站防逆流发电方案">多机大型电站防逆流发电方案</h4>
+<p>目前对于大型电站(发电功率&gt;=500kw),使用的为华为Smartlogger3000数据采集器与安科瑞PZ96L进行数据采集以及下发功率控制指令。</p>
+<p>电气连接框图如下：<br>
+<img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/FusionSolar/Snipaste_2025-10-12_23-46-10.png" alt="电气连接框图" data-caption="电气连接框图" loading="lazy"></p>
 
     
   </article>
@@ -423,10 +409,12 @@ window.MathJax = {
   <div class="nexmoe-post-meta nexmoe-rainbow">
    
     
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1/" rel="tag">串口通信</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E5%85%89%E4%BC%8F%E7%94%B5%E7%AB%99/" rel="tag">光伏电站</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E5%8D%8E%E4%B8%BAFusionSolar/" rel="tag">华为FusionSolar</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E5%BE%AE%E7%94%B5%E7%BD%91/" rel="tag">微电网</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%95%B0%E5%AD%97%E8%83%BD%E6%BA%90/" rel="tag">数字能源</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E7%94%B5%E6%B0%94%E5%B7%A5%E7%A8%8B/" rel="tag">电气工程</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a>
+    
 </div>
   
   
-    <script async src="/js/copy-codeblock.js?v=1760332027335"></script>
+    <script async src="/js/copy-codeblock.js?v=1760332027285"></script>
   
 
   
@@ -444,7 +432,7 @@ window.MathJax = {
             <button class="mdui-fab catalog" style="overflow:unset;">
                 <i class="nexmoefont icon-i-catalog"></i>
                 <div class="nexmoe-toc">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">📱 生活随拍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%B7-%E6%97%A5%E5%B8%B8%E6%91%84%E5%BD%B1"><span class="toc-number">1.1.</span> <span class="toc-text">📷 日常摄影</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">工程简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%95%86%E4%B8%9A%E5%8F%91%E7%94%B5-%E7%94%B5%E7%BD%91%E9%98%B2%E9%80%86%E6%B5%81%E6%96%B9%E6%A1%88"><span class="toc-number">1.1.</span> <span class="toc-text">工商业发电:电网防逆流方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.1.1.</span> <span class="toc-text">方案介绍以及适用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E9%80%86%E6%B5%81%E6%96%B9%E6%A1%88%EF%BC%88%E9%99%90%E5%8A%9F%E7%8E%87%E5%B9%B6%E7%BD%91%EF%BC%89%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.2.</span> <span class="toc-text">防逆流方案（限功率并网）基本原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E6%9C%BA%E5%AE%B6%E5%BA%AD%E7%94%B5%E7%AB%99%E9%98%B2%E9%80%86%E6%B5%81%E6%96%B9%E6%A1%88-100-%E8%87%AA%E5%8F%91%E8%87%AA%E7%94%A8"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">单机家庭电站防逆流方案(100%自发自用)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A5SUN2000-75KTL-M1-100KTL-M2-110KTL-M2-115KTL-M2-%E5%8D%95%E6%9C%BA%E7%BB%84%E7%BD%91%E4%B8%BA%E4%BE%8B"><span class="toc-number">1.1.2.1.1.</span> <span class="toc-text">以SUN2000-(75KTL-M1, 100KTL-M2, 110KTL-M2, 115KTL-M2)单机组网为例</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%94%B5%E8%A1%A8%E9%80%9A%E4%BF%A1%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.2.1.1.1.</span> <span class="toc-text">电表通信故障排除流程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E6%9C%BA%E5%A4%A7%E5%9E%8B%E7%94%B5%E7%AB%99%E9%98%B2%E9%80%86%E6%B5%81%E5%8F%91%E7%94%B5%E6%96%B9%E6%A1%88"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">多机大型电站防逆流发电方案</span></a></li></ol></li></ol></li></ol></li></ol>
                 </div>
             </button>
             
