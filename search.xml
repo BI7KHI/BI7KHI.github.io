@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>Git代理问题与解决方案分享</title>
+      <link href="/2025/10/19/Git%E4%BB%A3%E7%90%86%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/"/>
+      <url>/2025/10/19/Git%E4%BB%A3%E7%90%86%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/</url>
+      
+        <content type="html"><![CDATA[<h1>Git代理问题与解决方案分享</h1><p>在使用VSCode进行Git操作时，可能会遇到代理网络问题，导致无法正常连接到Github等远程仓库。本文将分享一些常见的Git代理问题及其解决方案，帮助开发者顺利进行版本控制。</p><h2 id="问题描述">问题描述</h2><p>当开发者在使用VSCode进行Git操作时，可能会遇到以下问题：</p><ul><li>无法连接到Github等远程仓库</li><li>推送或拉取代码时出现超时或错误</li></ul><p>具体表现为<br>···<br>Git: fatal: unable to access’https:/aithub.com/BI7KHIHAM operationTechnicalverification,git/: Failed to connect <a href="http://togithub.com">togithub.com</a> port 443 after 132917 ms: couldn’t connect to server<br>···<br>诸如此类Github等远程仓库连接问题</p><h2 id="原因分析">原因分析</h2><p>由于国内网络环境的限制，直接访问Github并进行远程仓库操作可能会遇到连接超时或失败的问题。<br>所以我们通常需要使用代理来进行Github远程仓库的访问<br>当时在配置好代理（例如Clash等）后，虽然网页能够正常访问Github，但是在使用VSCode进行Git操作时，仍然会遇到连接问题。<br>这通常是因为Git默认不使用系统代理，需要手动配置才能使Git操作通过代理进行。</p><h2 id="解决方法">解决方法</h2><p>使用如下两行代码配置Git全局代理，将地址和端口替换为实际的代理地址（通常为127.0.0.1）和端口（例如7890，以实际为准）。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy http://地址:端口</span><br><span class="line">git config --global https.proxy http://地址:端口</span><br></pre></td></tr></table></figure><p>如果代理为SOCKS5协议，需要将http.proxy和https.proxy配置为socks5://地址:端口。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy socks5://地址:端口</span><br><span class="line">git config --global https.proxy socks5://地址:端口</span><br></pre></td></tr></table></figure><p>检查配置是否生效<br>使用如下命令检查Git全局代理配置是否生效：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --get http.proxy</span><br><span class="line">git config --global --get https.proxy</span><br></pre></td></tr></table></figure><p>如果返回的结果与配置的代理地址和端口一致，说明配置生效。</p><h2 id="折腾过程中发现的问题">折腾过程中发现的问题</h2><p>有的时候配置完成代理端口后，出现无法访问代理端口的错误，返回时间0ms这种，通常为代理端口配置错误，需要检查代理端口是否正确。</p><h3 id="以Windows系统安装的的Clash-For-Windows为例">以Windows系统安装的的Clash For Windows为例</h3><p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/Git/cfw.png" alt="Clash For Windows配置" data-caption="Clash For Windows配置" loading="lazy"><br>填写的应为General-&gt;Port中的端口（默认7890）</p><h3 id="以Ubuntu系统安装Clash-Verge为例">以Ubuntu系统安装Clash Verge为例</h3><p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/Git/cv.png" alt="Clash Verge配置" data-caption="Clash Verge配置" loading="lazy"><br>填写的应为首页-&gt;Clash信息中的端口</p><h2 id="踩过的坑">踩过的坑</h2><p>在先前Windows平台上CFW上的服务商配置文件中默认端口为7890，在为General-&gt;Port也为7890，当时认为代理配置中的端口为实际代理端口。<br><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/Git/cfw-config.png" alt="cfw-config" data-caption="cfw-config" loading="lazy"><br>在Ubuntu 平台上使用Clash Verge的时候并没有注意到Clash信息中的端口配置，错误地认为代理配置（7890）中的端口为实际代理端口,结果出现端口无法访问的问题。<br><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/Git/cv-config.jpg" alt="Clash Verge配置" data-caption="Clash Verge配置" loading="lazy"><br>通过netstat指令监视所有端口后发现并没有进程使用7890端口。<br><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/Git/netstat.jpg" alt="netstat" data-caption="netstat" loading="lazy"><br>结果找到了疑似为Clash Verge的进程，端口实际上为7897。<br>后面再次执行下面指令</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy http://127.0.0.1:7897</span><br><span class="line">git config --global https.proxy http://127.0.0.1:7897</span><br></pre></td></tr></table></figure><p>配置完成后仓库可以正常clone和push/pull操作。<br>后面正式找到了正确的Clash Verge的端口配置<br><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/Git/cv.png" alt="Clash Verge配置" data-caption="Clash Verge配置" loading="lazy"></p><h3 id="踩坑后总结">踩坑后总结</h3><ol><li>别信配置文件，以实际端口为准</li><li>如果没有成功，首先检查代理是否运行，然后再次检查端口是否正确</li></ol><hr><p>最后编辑时间：2025-10-19 03:09:06</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Git </tag>
+            
+            <tag> Github </tag>
+            
+            <tag> 代理网络 </tag>
+            
+            <tag> VPN </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>【数字能源】FusionSolar华为光伏电站运维手册</title>
       <link href="/2025/10/13/FusionSolar%E5%8D%8E%E4%B8%BA%E5%85%89%E4%BC%8F%E7%94%B5%E7%AB%99%E8%BF%90%E7%BB%B4%E6%89%8B%E5%86%8C/"/>
       <url>/2025/10/13/FusionSolar%E5%8D%8E%E4%B8%BA%E5%85%89%E4%BC%8F%E7%94%B5%E7%AB%99%E8%BF%90%E7%BB%B4%E6%89%8B%E5%86%8C/</url>
