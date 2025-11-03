@@ -210,8 +210,6 @@
       
         <tags>
             
-            <tag> web </tag>
-            
             <tag> 传感器 </tag>
             
             <tag> RS485 </tag>
@@ -219,6 +217,8 @@
             <tag> 气象 </tag>
             
             <tag> 单片机 </tag>
+            
+            <tag> web </tag>
             
             <tag> 直播应用 </tag>
             
@@ -412,11 +412,11 @@
       
         <tags>
             
+            <tag> web </tag>
+            
             <tag> 第一篇博客 </tag>
             
             <tag> hello world </tag>
-            
-            <tag> web </tag>
             
         </tags>
       
