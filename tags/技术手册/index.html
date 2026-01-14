@@ -18,15 +18,15 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1768196654939">
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1768393903104">
 
-<link rel="stylesheet" href="/css/style.css?v=1768196654939">
+<link rel="stylesheet" href="/css/style.css?v=1768393903104">
 
 
 
 
     
-        <link rel="stylesheet" href="/custom.css?v=1768196654939">
+        <link rel="stylesheet" href="/custom.css?v=1768393903104">
     
 
 
@@ -36,7 +36,7 @@
 <script src="/lib/lax.min.js" async></script>
 
 
-<script async src="/js/app.js?v=1768196654939"></script>
+<script async src="/js/app.js?v=1768393903104"></script>
 
  
 
@@ -44,6 +44,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 <!-- APlayer 音乐播放器 CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<!-- Twikoo 评论系统 -->
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.39/dist/twikoo.all.min.js"></script>
 <!-- MathJax 数学公式渲染 -->
 <script>
 window.MathJax = {
@@ -141,7 +143,7 @@ window.MathJax = {
 </div>
 
 
-	<script async src="/js/search.js?v=1768196654941"></script>
+	<script async src="/js/search.js?v=1768393903105"></script>
 
 
 
@@ -480,4 +482,50 @@ window.MathJax = {
             <a href="#nexmoe-content" class="backtop toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
         </div>
     </div>
-</div></div><div id="nexmoe-footer"><!--!--></div><div id="nexmoe-search-space"><div class="search-container"><div class="search-header"><div class="search-input-container"><input class="search-input" type="text" placeholder="搜索" onInput="sinput();"></div><a class="search-close" onclick="sclose();">×</a></div><div class="search-body"></div></div></div><div></div></body></html>
+</div></div><div id="nexmoe-footer"><!--!--></div><div id="nexmoe-search-space"><div class="search-container"><div class="search-header"><div class="search-input-container"><input class="search-input" type="text" placeholder="搜索" onInput="sinput();"></div><a class="search-close" onclick="sclose();">×</a></div><div class="search-body"></div></div></div><div><!-- Twikoo 评论系统初始化 -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 只在文章页面添加评论区，避免在首页等非文章页面显示
+    if (window.location.pathname.match(/\/\d{4}\/\d{2}\/\d{2}\//) || 
+        document.querySelector('article.post') || 
+        document.body.classList.contains('post-template')) {
+      
+      // 检查是否已存在评论容器，如果没有则自动创建
+      let talkContainer = document.getElementById('tcomment');
+      
+      if (!talkContainer) {
+        const article = document.querySelector('article') || 
+                       document.querySelector('.nexmoe-post') || 
+                       document.querySelector('.post-content') ||
+                       document.querySelector('main');
+            if (article) {
+          // 创建评论容器
+          talkContainer = document.createElement('div');
+          talkContainer.id = 'tcomment';
+          
+          // 插入到文章内容后面
+          article.insertAdjacentElement('afterend', talkContainer);
+        }
+      }
+      
+      // 初始化 Twikoo（使用您的实际环境 ID）
+      if (talkContainer && typeof twikoo !== 'undefined') {
+        twikoo.init({
+          envId: 'https://bi7khiblog.netlify.app/.netlify/functions/twikoo',
+          el: '#tcomment',
+          path: window.location.pathname,
+          lang: 'zh-CN'
+        }).then(() => {
+          console.log('✅ Twikoo 评论系统初始化成功');
+        }).catch(err => {
+          console.error('❌ Twikoo 初始化失败:', err);
+          // 如果初始化失败，显示错误信息
+          if (talkContainer) {
+            talkContainer.innerHTML = '<p style="color: #999; text-align: center; padding: 20px;">评论系统暂时无法加载，请稍后再试。</p>';
+          }
+        });
+      }
+    }
+  });
+</script>
+</div></body></html>

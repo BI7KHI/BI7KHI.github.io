@@ -225,3 +225,8 @@
         padding-top: 50% !important;
     }
 }
+
+/* Twikoo 评论系统默认样式 - 最小化自定义 */
+#tcomment {
+    margin: 30px 0;
+}
