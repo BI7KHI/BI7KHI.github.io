@@ -27,15 +27,15 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1768393903294">
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1768488300031">
 
-<link rel="stylesheet" href="/css/style.css?v=1768393903294">
+<link rel="stylesheet" href="/css/style.css?v=1768488300031">
 
 
 
 
     
-        <link rel="stylesheet" href="/custom.css?v=1768393903294">
+        <link rel="stylesheet" href="/custom.css?v=1768488300031">
     
 
 
@@ -45,7 +45,7 @@
 <script src="/lib/lax.min.js" async></script>
 
 
-<script async src="/js/app.js?v=1768393903294"></script>
+<script async src="/js/app.js?v=1768488300031"></script>
 
  
 
@@ -152,7 +152,7 @@ window.MathJax = {
 </div>
 
 
-	<script async src="/js/search.js?v=1768393903295"></script>
+	<script async src="/js/search.js?v=1768488300032"></script>
 
 
 
@@ -379,64 +379,103 @@ window.MathJax = {
     
         
         
-        <div class="nexmoe-widget-wrap widget-friends">
-	<h3 class="nexmoe-widget-title widget-title">友情链接</h3>
-	<div class="nexmoe-widget">
-		<ul class="friends-list">
+        
+        
+<div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-beian">
+		<div class="beian-content">
 			
-			<li class="friend-item">
-				<a href="https://hongliu.icu/" target="_blank" class="friend-link">
-					<img src="https://hongliu.icu/image/avator_1.jpg" alt="Hongliu的小站" class="friend-avatar">
-					<div class="friend-info">
-						<span class="friend-name">Hongliu的小站</span>
-						<div class="friend-desc">hongliu.icu</div>
-					</div>
+			<div class="beian-item">
+				<a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow">
+					粤ICP备2025445469号
 				</a>
-			</li>
+			</div>
 			
-			<li class="friend-item">
-				<a href="https://blog.bh7gul.top" target="_blank" class="friend-link">
-					<img src="https://cn.cravatar.com/avatar/6BAC428280ABEA346ECEA2BA259FDF72" alt="BH7GUL的小世界" class="friend-avatar">
-					<div class="friend-info">
-						<span class="friend-name">BH7GUL的小世界</span>
-						<div class="friend-desc">blog.bh7gul.top</div>
-					</div>
+			
+			
+			<div class="beian-item">
+				<a href="https://icp.gov.moe/?keyword=20260045" target="_blank" rel="nofollow">
+					
+					萌ICP备20260045号
 				</a>
-			</li>
+			</div>
 			
-			<li class="friend-item">
-				<a href="https://blog.suoilfield.cc/" target="_blank" class="friend-link">
-					<img src="https://blog.suoilfield.cc/assets/images/profile.png" alt="SuOilfield&#39;s Blog" class="friend-avatar">
-					<div class="friend-info">
-						<span class="friend-name">SuOilfield&#39;s Blog</span>
-						<div class="friend-desc">blog.suoilfield.cc</div>
-					</div>
-				</a>
-			</li>
 			
-			<li class="friend-item">
-				<a href="https://yuanshen.dev/" target="_blank" class="friend-link">
-					<img src="https://ts4.tc.mm.bing.net/th/id/OIP-C.uXs0b0qPzfy2kKFCwiPHswAAAA?w=108&h=108&c=1&bgcl=1d7f01&r=0&o=7&dpr=1.7&pid=ImgRC&rm=3" alt="YuanRetro" class="friend-avatar">
-					<div class="friend-info">
-						<span class="friend-name">YuanRetro</span>
-						<div class="friend-desc">yuanshen.dev</div>
-					</div>
-				</a>
-			</li>
 			
-			<li class="friend-item">
-				<a href="https://kyunana.art/" target="_blank" class="friend-link">
-					<img src="https://www.kyunana.art/images/avatar.jpg" alt="Kyunana的栈" class="friend-avatar">
-					<div class="friend-info">
-						<span class="friend-name">Kyunana的栈</span>
-						<div class="friend-desc">kyunana.art</div>
-					</div>
-				</a>
-			</li>
 			
-		</ul>
+			<div class="beian-item">
+				
+				<span>网站内容遵循CC BY-NC-SA 4.0协议</span>
+				
+			</div>
+			
+			
+		</div>
 	</div>
 </div>
+
+<style>
+.nexmoe-beian {
+	padding: 15px;
+	font-size: 12px;
+	color: #888;
+	line-height: 1.6;
+	text-align: center;
+}
+
+.beian-content {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.beian-item {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.beian-item a {
+	color: #888;
+	text-decoration: none;
+	transition: color 0.3s ease;
+}
+
+.beian-item a:hover {
+	color: #555;
+	text-decoration: underline;
+}
+
+.beian-item img {
+	vertical-align: text-bottom;
+	margin-right: 3px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+	.nexmoe-beian {
+		font-size: 11px;
+		padding: 12px;
+	}
+	
+	.beian-content {
+		gap: 6px;
+	}
+}
+
+/* 深色主题适配 */
+@media (prefers-color-scheme: dark) {
+	.beian-item a {
+		color: #aaa;
+	}
+	
+	.beian-item a:hover {
+		color: #ccc;
+	}
+}
+</style>
+
+
     
    
     <div class="nexmoe-copyright">
@@ -574,7 +613,7 @@ img:not(.photo-grid img) {
 </div>
   
   
-    <script async src="/js/copy-codeblock.js?v=1768393902703"></script>
+    <script async src="/js/copy-codeblock.js?v=1768488299113"></script>
   
 
   
